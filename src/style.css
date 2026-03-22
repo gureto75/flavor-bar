@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Satoshi', sans-serif;
+    line-height: 1.6;
+  }
+
+  :root {
+    --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #5a5a5a;
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-enter-from {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.slide-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+/* Intensity bars */
+.intensity-bar {
+  height: 6px;
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card hover */
+.product-card {
+  transition: transform var(--transition-interactive), 
+              box-shadow var(--transition-interactive);
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Filter chip active state */
+.filter-chip-active {
+  @apply ring-2 ring-vapor-500 ring-offset-2 dark:ring-offset-smoke-950;
+}
