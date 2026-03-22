@@ -127,14 +127,14 @@ export function useProducts() {
       )
     }
 
-    // Ice intensity filter
+    // Ice intensity filter (maximum - show products with intensity <= selected value)
     if (filters.value.iceIntensity !== null) {
-      result = result.filter(p => p.ice_intensity >= filters.value.iceIntensity)
+      result = result.filter(p => p.ice_intensity <= filters.value.iceIntensity)
     }
 
-    // Sweetness intensity filter
+    // Sweetness intensity filter (maximum - show products with intensity <= selected value)
     if (filters.value.sweetnessIntensity !== null) {
-      result = result.filter(p => p.sweetness_intensity >= filters.value.sweetnessIntensity)
+      result = result.filter(p => p.sweetness_intensity <= filters.value.sweetnessIntensity)
     }
 
     return result

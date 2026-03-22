@@ -255,22 +255,22 @@ function handleSweetnessChange(val) {
           <div>
             <div class="flex items-center gap-1.5 mb-1.5">
               <Snowflake :size="13" class="text-sky-500" />
-              <span class="text-xs font-medium text-smoke-600 dark:text-smoke-400">Πάγος (ελάχ.)</span>
+              <span class="text-xs font-medium text-smoke-600 dark:text-smoke-400">Πάγος (μέγ.)</span>
             </div>
             <div class="flex gap-1">
               <button
-                v-for="i in 5"
-                :key="'ice-' + i"
-                @click="handleIceChange(i)"
+                v-for="i in 6"
+                :key="'ice-' + (i - 1)"
+                @click="handleIceChange(i - 1)"
                 :class="[
                   'flex-1 h-7 rounded-md text-xs font-semibold transition-all',
-                  filters.iceIntensity === i
+                  filters.iceIntensity === (i - 1)
                     ? 'bg-sky-500 text-white shadow-sm'
                     : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-500 dark:text-smoke-400 hover:bg-sky-100 dark:hover:bg-sky-900/30'
                 ]"
-                :data-testid="`filter-ice-${i}`"
+                :data-testid="`filter-ice-${i - 1}`"
               >
-                {{ i }}
+                {{ i - 1 }}
               </button>
             </div>
           </div>
@@ -279,22 +279,22 @@ function handleSweetnessChange(val) {
           <div>
             <div class="flex items-center gap-1.5 mb-1.5">
               <Candy :size="13" class="text-amber-500" />
-              <span class="text-xs font-medium text-smoke-600 dark:text-smoke-400">Γλυκύτητα (ελάχ.)</span>
+              <span class="text-xs font-medium text-smoke-600 dark:text-smoke-400">Γλυκύτητα (μέγ.)</span>
             </div>
             <div class="flex gap-1">
               <button
-                v-for="i in 5"
-                :key="'sweet-' + i"
-                @click="handleSweetnessChange(i)"
+                v-for="i in 6"
+                :key="'sweet-' + (i - 1)"
+                @click="handleSweetnessChange(i - 1)"
                 :class="[
                   'flex-1 h-7 rounded-md text-xs font-semibold transition-all',
-                  filters.sweetnessIntensity === i
+                  filters.sweetnessIntensity === (i - 1)
                     ? 'bg-amber-500 text-white shadow-sm'
                     : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-500 dark:text-smoke-400 hover:bg-amber-100 dark:hover:bg-amber-900/30'
                 ]"
-                :data-testid="`filter-sweetness-${i}`"
+                :data-testid="`filter-sweetness-${i - 1}`"
               >
-                {{ i }}
+                {{ i - 1 }}
               </button>
             </div>
           </div>
