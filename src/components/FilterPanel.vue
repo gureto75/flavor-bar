@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { SlidersHorizontal, X, ChevronDown, ChevronUp, Snowflake, Candy, Globe, Building2 } from 'lucide-vue-next'
+import { SlidersHorizontal, X, ChevronDown, ChevronUp, Snowflake, Candy, Globe, Building2, Search } from 'lucide-vue-next'
 
 const props = defineProps({
   filters: { type: Object, required: true },
@@ -58,6 +58,14 @@ function handleToggleVolume(volume) {
   emit('toggle-volume', volume)
   emit('filter-changed')
 }
+
+const ingredientSearch = ref('')
+
+const filteredIngredients = computed(() => {
+  const query = ingredientSearch.value.toLowerCase().trim()
+  if (!query) return props.availableIngredients
+  return props.availableIngredients.filter(i => i.toLowerCase().includes(query))
+})
 
 function handleToggleIngredient(ingredient) {
   emit('toggle-ingredient', ingredient)
@@ -239,21 +247,49 @@ function handleSweetnessChange(val) {
           Συστατικά
           <component :is="expandedSections.ingredients ? ChevronUp : ChevronDown" :size="14" />
         </button>
-        <div v-if="expandedSections.ingredients" class="mt-2 flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
-          <button
-            v-for="ingredient in availableIngredients"
-            :key="ingredient"
-            @click="handleToggleIngredient(ingredient)"
-            :class="[
-              'px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all',
-              filters.ingredients.includes(ingredient)
-                ? 'bg-vapor-600 text-white dark:bg-vapor-500 shadow-sm'
-                : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400 hover:bg-smoke-200 dark:hover:bg-smoke-700'
-            ]"
-            :data-testid="`filter-ingredient-${ingredient}`"
-          >
-            {{ ingredient }}
-          </button>
+        <div v-if="expandedSections.ingredients" class="mt-2 space-y-2">
+          <!-- Search box -->
+          <div class="relative">
+            <Search :size="13" class="absolute left-2 top-1/2 -translate-y-1/2 text-smoke-400 dark:text-smoke-500 pointer-events-none" />
+            <input
+              v-model="ingredientSearch"
+              type="text"
+              placeholder="Αναζήτηση συστατικού..."
+              class="w-full pl-7 pr-2 py-1.5 bg-smoke-50 dark:bg-smoke-800 border border-smoke-200 dark:border-smoke-700 rounded-lg text-xs text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500 focus:outline-none focus:ring-1 focus:ring-vapor-500"
+              data-testid="input-ingredient-search"
+            />
+          </div>
+          <!-- Selected pills (always visible on top) -->
+          <div v-if="filters.ingredients.length > 0 && ingredientSearch.trim()" class="flex flex-wrap gap-1.5">
+            <button
+              v-for="ingredient in filters.ingredients.filter(i => !filteredIngredients.includes(i))"
+              :key="'selected-' + ingredient"
+              @click="handleToggleIngredient(ingredient)"
+              class="px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-vapor-600 text-white dark:bg-vapor-500 shadow-sm"
+            >
+              {{ ingredient }} ✕
+            </button>
+          </div>
+          <!-- Ingredient pills -->
+          <div class="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
+            <button
+              v-for="ingredient in filteredIngredients"
+              :key="ingredient"
+              @click="handleToggleIngredient(ingredient)"
+              :class="[
+                'px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all',
+                filters.ingredients.includes(ingredient)
+                  ? 'bg-vapor-600 text-white dark:bg-vapor-500 shadow-sm'
+                  : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400 hover:bg-smoke-200 dark:hover:bg-smoke-700'
+              ]"
+              :data-testid="`filter-ingredient-${ingredient}`"
+            >
+              {{ ingredient }}
+            </button>
+            <p v-if="filteredIngredients.length === 0" class="text-xs text-smoke-400 dark:text-smoke-500 italic py-1">
+              Κανένα αποτέλεσμα
+            </p>
+          </div>
         </div>
       </div>
 
