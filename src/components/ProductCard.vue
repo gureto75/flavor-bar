@@ -37,7 +37,7 @@ function fallbackImage(e) {
 
 <template>
   <article
-    class="product-card group bg-white dark:bg-smoke-900 rounded-xl border border-smoke-200 dark:border-smoke-800 overflow-hidden shadow-sm hover:shadow-md dark:shadow-none"
+    class="product-card group flex flex-col bg-white dark:bg-smoke-900 rounded-xl border border-smoke-200 dark:border-smoke-800 overflow-hidden shadow-sm hover:shadow-md dark:shadow-none"
     :data-testid="`card-product-${product.id}`"
   >
     <!-- Image -->
@@ -66,7 +66,7 @@ function fallbackImage(e) {
     </div>
 
     <!-- Content -->
-    <div class="p-4 space-y-3">
+    <div class="p-4 flex flex-col flex-1">
       <!-- Name & Volume -->
       <div>
         <h3 class="text-base font-bold text-smoke-900 dark:text-smoke-100 leading-tight">
@@ -80,40 +80,43 @@ function fallbackImage(e) {
         </div>
       </div>
 
-      <!-- Description -->
-      <p class="text-sm text-smoke-600 dark:text-smoke-400 leading-relaxed line-clamp-6">
+      <!-- Description (grows to fill space so bottom section stays aligned) -->
+      <p class="text-sm text-smoke-600 dark:text-smoke-400 leading-relaxed line-clamp-6 mt-3 flex-1">
         {{ product.description }}
       </p>
 
-      <!-- Ingredients -->
-      <div class="flex flex-wrap gap-1.5">
-        <span
-          v-for="ingredient in product.ingredients"
-          :key="ingredient"
-          class="inline-flex items-center px-2 py-0.5 rounded-md bg-smoke-100 dark:bg-smoke-800 text-xs text-smoke-600 dark:text-smoke-400 font-medium"
+      <!-- Bottom section: always pinned to card bottom -->
+      <div class="mt-3 space-y-3">
+        <!-- Ingredients -->
+        <div class="flex flex-wrap gap-1.5">
+          <span
+            v-for="ingredient in product.ingredients"
+            :key="ingredient"
+            class="inline-flex items-center px-2 py-0.5 rounded-md bg-smoke-100 dark:bg-smoke-800 text-xs text-smoke-600 dark:text-smoke-400 font-medium"
+          >
+            {{ ingredient }}
+          </span>
+        </div>
+
+        <!-- Intensity Bars -->
+        <div class="space-y-1.5 pt-1">
+          <IntensityBar :value="product.ice_intensity" :max="5" color="ice" label="Πάγος" />
+          <IntensityBar :value="product.sweetness_intensity" :max="5" color="sweet" label="Γλυκύτητα" />
+        </div>
+
+        <!-- CTA -->
+        <a
+          v-if="product.product_url"
+          :href="product.product_url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-vapor-600 hover:bg-vapor-700 dark:bg-vapor-500 dark:hover:bg-vapor-600 text-white text-sm font-semibold rounded-lg transition-colors"
+          :data-testid="`link-product-${product.id}`"
         >
-          {{ ingredient }}
-        </span>
+          Δες το στο e-shop
+          <ExternalLink :size="14" />
+        </a>
       </div>
-
-      <!-- Intensity Bars -->
-      <div class="space-y-1.5 pt-1">
-        <IntensityBar :value="product.ice_intensity" :max="5" color="ice" label="Πάγος" />
-        <IntensityBar :value="product.sweetness_intensity" :max="5" color="sweet" label="Γλυκύτητα" />
-      </div>
-
-      <!-- CTA -->
-      <a
-        v-if="product.product_url"
-        :href="product.product_url"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex items-center justify-center gap-2 w-full mt-2 px-4 py-2.5 bg-vapor-600 hover:bg-vapor-700 dark:bg-vapor-500 dark:hover:bg-vapor-600 text-white text-sm font-semibold rounded-lg transition-colors"
-        :data-testid="`link-product-${product.id}`"
-      >
-        Δες το στο e-shop
-        <ExternalLink :size="14" />
-      </a>
     </div>
   </article>
 </template>
