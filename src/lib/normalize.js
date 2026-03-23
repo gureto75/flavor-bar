@@ -4,7 +4,7 @@
  * Also handles dialytika combinations (ΐ, ΰ).
  */
 export function normalizeGreek(str) {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/ς/g, 'σ')
 }
 
 /**
