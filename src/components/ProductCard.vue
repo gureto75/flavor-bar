@@ -7,19 +7,27 @@ const props = defineProps({
 })
 
 const profileColors = {
-  'Φρούτα': 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
-  'Μέντα': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
-  'Καπνικά': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-  'Κρέμες': 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-  'Ροφήματα': 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400',
+  'Δροσερά - Παγωμενα': 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400',
+  'Γλυκά - Επιδόρπια': 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
+  'Ημικαπνικά': 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  'Φρουτώδη': 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
+  'Καπνικα': 'bg-yellow-900/20 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500',
+  'Μπισκότα - Cookies': 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
+  'Καπνικά με φρούτα': 'bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400',
+  'Καραμέλες': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
+  'Άλλο': 'bg-smoke-100 text-smoke-700 dark:bg-smoke-800 dark:text-smoke-300',
 }
 
 const profileEmoji = {
-  'Φρούτα': '🍊',
-  'Μέντα': '🌿',
-  'Καπνικά': '🍂',
-  'Κρέμες': '🍦',
-  'Ροφήματα': '☕',
+  'Δροσερά - Παγωμενα': '🧊',
+  'Γλυκά - Επιδόρπια': '🍰',
+  'Ημικαπνικά': '🍃',
+  'Φρουτώδη': '🍊',
+  'Καπνικα': '🍂',
+  'Μπισκότα - Cookies': '🍪',
+  'Καπνικά με φρούτα': '🍂🍇',
+  'Καραμέλες': '🍬',
+  'Άλλο': '💨',
 }
 
 function getProfileClass(profile) {
