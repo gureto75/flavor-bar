@@ -28,7 +28,7 @@ const emit = defineEmits(['go-back'])
           </button>
 
           <!-- Logo -->
-          <div class="flex items-center gap-2.5">
+          <a href="https://flavor-bar-vaporstation.netlify.app/" class="flex items-center gap-2.5 no-underline">
             <svg class="w-7 h-7 text-vapor-600 dark:text-vapor-400" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Flavor Bar Logo">
               <rect x="3" y="8" width="26" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
               <path d="M10 8V5a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -46,7 +46,7 @@ const emit = defineEmits(['go-back'])
                 VaporStation &middot; Εν Ατμώ
               </p>
             </div>
-          </div>
+          </a>
         </div>
 
         <!-- Right: Theme toggle -->
