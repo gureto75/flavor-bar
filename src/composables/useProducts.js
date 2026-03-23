@@ -17,6 +17,8 @@ const filters = ref({
   profiles: [],
   volumes: [],
   ingredients: [],
+  countries: [],
+  brands: [],
   priceRange: [0, 50],
   iceIntensity: null,
   sweetnessIntensity: null,
@@ -81,6 +83,16 @@ export function useProducts() {
     return unique.sort()
   })
 
+  const availableCountries = computed(() => {
+    const countries = [...new Set(products.value.map(p => p.country).filter(Boolean))]
+    return countries.sort()
+  })
+
+  const availableBrands = computed(() => {
+    const brands = [...new Set(products.value.map(p => p.brand).filter(Boolean))]
+    return brands.sort()
+  })
+
   const priceRange = computed(() => {
     if (products.value.length === 0) return [0, 50]
     const prices = products.value.map(p => p.price)
@@ -121,6 +133,16 @@ export function useProducts() {
           (p.ingredients || []).includes(ing)
         )
       )
+    }
+
+    // Country filter
+    if (filters.value.countries.length > 0) {
+      result = result.filter(p => filters.value.countries.includes(p.country))
+    }
+
+    // Brand filter
+    if (filters.value.brands.length > 0) {
+      result = result.filter(p => filters.value.brands.includes(p.brand))
     }
 
     // Price range filter
@@ -171,6 +193,8 @@ export function useProducts() {
     if (filters.value.profiles.length > 0) count++
     if (filters.value.volumes.length > 0) count++
     if (filters.value.ingredients.length > 0) count++
+    if (filters.value.countries.length > 0) count++
+    if (filters.value.brands.length > 0) count++
     if (filters.value.iceIntensity !== null) count++
     if (filters.value.sweetnessIntensity !== null) count++
     const [min, max] = priceRange.value
@@ -183,6 +207,8 @@ export function useProducts() {
       profiles: [],
       volumes: [],
       ingredients: [],
+      countries: [],
+      brands: [],
       priceRange: [...priceRange.value],
       iceIntensity: null,
       sweetnessIntensity: null,
@@ -217,6 +243,24 @@ export function useProducts() {
     }
   }
 
+  function toggleCountry(country) {
+    const idx = filters.value.countries.indexOf(country)
+    if (idx === -1) {
+      filters.value.countries.push(country)
+    } else {
+      filters.value.countries.splice(idx, 1)
+    }
+  }
+
+  function toggleBrand(brand) {
+    const idx = filters.value.brands.indexOf(brand)
+    if (idx === -1) {
+      filters.value.brands.push(brand)
+    } else {
+      filters.value.brands.splice(idx, 1)
+    }
+  }
+
   // Save current filter state to history
   function pushHistory() {
     navigationHistory.value.push({
@@ -246,6 +290,8 @@ export function useProducts() {
     availableProfiles,
     availableVolumes,
     availableIngredients,
+    availableCountries,
+    availableBrands,
     priceRange,
     activeFilterCount,
     fetchProducts,
@@ -253,6 +299,8 @@ export function useProducts() {
     toggleProfile,
     toggleVolume,
     toggleIngredient,
+    toggleCountry,
+    toggleBrand,
     pushHistory,
     goBack,
     canGoBack,

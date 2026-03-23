@@ -1,12 +1,14 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { SlidersHorizontal, X, ChevronDown, ChevronUp, Snowflake, Candy } from 'lucide-vue-next'
+import { SlidersHorizontal, X, ChevronDown, ChevronUp, Snowflake, Candy, Globe, Building2 } from 'lucide-vue-next'
 
 const props = defineProps({
   filters: { type: Object, required: true },
   availableProfiles: { type: Array, default: () => [] },
   availableVolumes: { type: Array, default: () => [] },
   availableIngredients: { type: Array, default: () => [] },
+  availableCountries: { type: Array, default: () => [] },
+  availableBrands: { type: Array, default: () => [] },
   priceRange: { type: Array, default: () => [0, 50] },
   activeFilterCount: { type: Number, default: 0 },
 })
@@ -15,6 +17,8 @@ const emit = defineEmits([
   'toggle-profile',
   'toggle-volume',
   'toggle-ingredient',
+  'toggle-country',
+  'toggle-brand',
   'update-price',
   'update-ice',
   'update-sweetness',
@@ -26,6 +30,8 @@ const isOpen = ref(false)
 const expandedSections = ref({
   profile: true,
   volume: true,
+  country: true,
+  brand: true,
   ingredients: false,
   price: true,
   intensity: true,
@@ -55,6 +61,16 @@ function handleToggleVolume(volume) {
 
 function handleToggleIngredient(ingredient) {
   emit('toggle-ingredient', ingredient)
+  emit('filter-changed')
+}
+
+function handleToggleCountry(country) {
+  emit('toggle-country', country)
+  emit('filter-changed')
+}
+
+function handleToggleBrand(brand) {
+  emit('toggle-brand', brand)
   emit('filter-changed')
 }
 
@@ -211,6 +227,66 @@ function handleSweetnessChange(val) {
               />
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Country -->
+      <div>
+        <button
+          @click="toggleSection('country')"
+          class="flex items-center justify-between w-full py-1 text-xs font-semibold text-smoke-500 dark:text-smoke-400 uppercase tracking-wider"
+        >
+          <span class="flex items-center gap-1.5">
+            <Globe :size="13" class="text-emerald-500" />
+            Χώρα Προέλευσης
+          </span>
+          <component :is="expandedSections.country ? ChevronUp : ChevronDown" :size="14" />
+        </button>
+        <div v-if="expandedSections.country" class="mt-2 flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
+          <button
+            v-for="country in availableCountries"
+            :key="country"
+            @click="handleToggleCountry(country)"
+            :class="[
+              'px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all',
+              filters.countries.includes(country)
+                ? 'bg-vapor-600 text-white dark:bg-vapor-500 shadow-sm'
+                : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400 hover:bg-smoke-200 dark:hover:bg-smoke-700'
+            ]"
+            :data-testid="`filter-country-${country}`"
+          >
+            {{ country }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Brand -->
+      <div>
+        <button
+          @click="toggleSection('brand')"
+          class="flex items-center justify-between w-full py-1 text-xs font-semibold text-smoke-500 dark:text-smoke-400 uppercase tracking-wider"
+        >
+          <span class="flex items-center gap-1.5">
+            <Building2 :size="13" class="text-indigo-500" />
+            Εταιρεία (Brand)
+          </span>
+          <component :is="expandedSections.brand ? ChevronUp : ChevronDown" :size="14" />
+        </button>
+        <div v-if="expandedSections.brand" class="mt-2 flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
+          <button
+            v-for="brand in availableBrands"
+            :key="brand"
+            @click="handleToggleBrand(brand)"
+            :class="[
+              'px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all',
+              filters.brands.includes(brand)
+                ? 'bg-vapor-600 text-white dark:bg-vapor-500 shadow-sm'
+                : 'bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400 hover:bg-smoke-200 dark:hover:bg-smoke-700'
+            ]"
+            :data-testid="`filter-brand-${brand}`"
+          >
+            {{ brand }}
+          </button>
         </div>
       </div>
 

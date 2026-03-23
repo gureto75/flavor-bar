@@ -1,6 +1,6 @@
 <script setup>
 import IntensityBar from './IntensityBar.vue'
-import { ExternalLink, Droplets, Candy, FlaskConical, Tag } from 'lucide-vue-next'
+import { ExternalLink, Droplets, Candy, FlaskConical, Tag, Globe, Building2 } from 'lucide-vue-next'
 
 const props = defineProps({
   product: { type: Object, required: true },
@@ -67,15 +67,23 @@ function fallbackImage(e) {
 
     <!-- Content -->
     <div class="p-4 flex flex-col flex-1">
-      <!-- Name & Volume -->
+      <!-- Name & Volume & Meta -->
       <div>
         <h3 class="text-base font-bold text-smoke-900 dark:text-smoke-100 leading-tight">
           {{ product.name }}
         </h3>
-        <div class="flex items-center gap-2 mt-1">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
           <span class="inline-flex items-center gap-1 text-xs text-smoke-500 dark:text-smoke-400">
             <FlaskConical :size="12" />
             {{ product.final_volume }}
+          </span>
+          <span v-if="product.brand" class="inline-flex items-center gap-1 text-xs text-smoke-500 dark:text-smoke-400">
+            <Building2 :size="12" />
+            {{ product.brand }}
+          </span>
+          <span v-if="product.country" class="inline-flex items-center gap-1 text-xs text-smoke-500 dark:text-smoke-400">
+            <Globe :size="12" />
+            {{ product.country }}
           </span>
         </div>
       </div>

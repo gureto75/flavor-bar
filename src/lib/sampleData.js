@@ -12,6 +12,8 @@ export const sampleProducts = [
     price: 8.50,
     ice_intensity: 5,
     sweetness_intensity: 1,
+    country: "Ηνωμένο Βασίλειο",
+    brand: "IceLab",
   },
   {
     id: 2,
@@ -25,6 +27,8 @@ export const sampleProducts = [
     price: 9.00,
     ice_intensity: 2,
     sweetness_intensity: 4,
+    country: "Μαλαισία",
+    brand: "Fruity Clouds",
   },
   {
     id: 3,
@@ -38,6 +42,8 @@ export const sampleProducts = [
     price: 7.50,
     ice_intensity: 0,
     sweetness_intensity: 3,
+    country: "Ιταλία",
+    brand: "Vaporart",
   },
   {
     id: 4,
@@ -51,6 +57,8 @@ export const sampleProducts = [
     price: 8.50,
     ice_intensity: 1,
     sweetness_intensity: 5,
+    country: "Ηνωμένο Βασίλειο",
+    brand: "Vampire Vape",
   },
   {
     id: 5,
@@ -64,6 +72,8 @@ export const sampleProducts = [
     price: 9.50,
     ice_intensity: 0,
     sweetness_intensity: 5,
+    country: "ΗΠΑ",
+    brand: "Loaded",
   },
   {
     id: 6,
@@ -77,6 +87,8 @@ export const sampleProducts = [
     price: 8.00,
     ice_intensity: 3,
     sweetness_intensity: 2,
+    country: "Ελλάδα",
+    brand: "Atmos Lab",
   },
   {
     id: 7,
@@ -90,6 +102,8 @@ export const sampleProducts = [
     price: 12.00,
     ice_intensity: 4,
     sweetness_intensity: 3,
+    country: "Μαλαισία",
+    brand: "Fruity Clouds",
   },
   {
     id: 8,
@@ -103,6 +117,8 @@ export const sampleProducts = [
     price: 7.50,
     ice_intensity: 0,
     sweetness_intensity: 2,
+    country: "Ιταλία",
+    brand: "Vaporart",
   },
   {
     id: 9,
@@ -116,6 +132,8 @@ export const sampleProducts = [
     price: 8.50,
     ice_intensity: 3,
     sweetness_intensity: 4,
+    country: "Ηνωμένο Βασίλειο",
+    brand: "IceLab",
   },
   {
     id: 10,
@@ -129,6 +147,8 @@ export const sampleProducts = [
     price: 10.00,
     ice_intensity: 0,
     sweetness_intensity: 4,
+    country: "Ελλάδα",
+    brand: "Atmos Lab",
   },
   {
     id: 11,
@@ -142,6 +162,8 @@ export const sampleProducts = [
     price: 7.00,
     ice_intensity: 4,
     sweetness_intensity: 1,
+    country: "ΗΠΑ",
+    brand: "Halo",
   },
   {
     id: 12,
@@ -155,5 +177,7 @@ export const sampleProducts = [
     price: 8.50,
     ice_intensity: 0,
     sweetness_intensity: 3,
+    country: "Ελλάδα",
+    brand: "VaporStation",
   },
 ]

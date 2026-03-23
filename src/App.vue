@@ -19,6 +19,8 @@ const {
   availableProfiles,
   availableVolumes,
   availableIngredients,
+  availableCountries,
+  availableBrands,
   priceRange,
   activeFilterCount,
   fetchProducts,
@@ -26,6 +28,8 @@ const {
   toggleProfile,
   toggleVolume,
   toggleIngredient,
+  toggleCountry,
+  toggleBrand,
   pushHistory,
   goBack,
   canGoBack,
@@ -103,11 +107,15 @@ function handleGoBack() {
               :availableProfiles="availableProfiles"
               :availableVolumes="availableVolumes"
               :availableIngredients="availableIngredients"
+              :availableCountries="availableCountries"
+              :availableBrands="availableBrands"
               :priceRange="priceRange"
               :activeFilterCount="activeFilterCount"
               @toggle-profile="toggleProfile"
               @toggle-volume="toggleVolume"
               @toggle-ingredient="toggleIngredient"
+              @toggle-country="toggleCountry"
+              @toggle-brand="toggleBrand"
               @update-price="updatePrice"
               @update-ice="updateIce"
               @update-sweetness="updateSweetness"
