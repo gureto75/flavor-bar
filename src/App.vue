@@ -101,7 +101,7 @@ function handleGoBack() {
       <div class="flex flex-col lg:flex-row gap-5">
         <!-- Sidebar Filters -->
         <aside class="lg:w-64 lg:shrink-0">
-          <div class="lg:sticky lg:top-20">
+          <div class="lg:sticky lg:top-20 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pr-1">
             <FilterPanel
               :filters="filters"
               :availableProfiles="availableProfiles"

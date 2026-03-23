@@ -36,8 +36,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Cabinet Grotesk', 'sans-serif'],
-        body: ['Satoshi', 'sans-serif'],
+        display: ['Sansation', 'sans-serif'],
+        body: ['Sansation', 'sans-serif'],
       },
     },
   },
