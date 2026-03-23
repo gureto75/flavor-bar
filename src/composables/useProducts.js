@@ -34,12 +34,31 @@ export function useProducts() {
     error.value = null
 
     try {
-      const { data, error: fetchError } = await supabase
-        .from('flavor_shots')
-        .select('*')
-        .order('name', { ascending: true })
+      // Fetch all products (Supabase default limit is 1000, so we paginate)
+      let allData = []
+      let from = 0
+      const pageSize = 1000
+      let hasMore = true
 
-      if (fetchError) throw fetchError
+      while (hasMore) {
+        const { data: pageData, error: fetchError } = await supabase
+          .from('flavor_shots')
+          .select('*')
+          .order('name', { ascending: true })
+          .range(from, from + pageSize - 1)
+
+        if (fetchError) throw fetchError
+
+        if (pageData && pageData.length > 0) {
+          allData = allData.concat(pageData)
+          from += pageSize
+          hasMore = pageData.length === pageSize
+        } else {
+          hasMore = false
+        }
+      }
+
+      const data = allData
 
       if (data && data.length > 0) {
         products.value = data.map(p => ({
