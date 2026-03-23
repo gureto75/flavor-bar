@@ -81,7 +81,7 @@ function fallbackImage(e) {
       </div>
 
       <!-- Description -->
-      <p class="text-sm text-smoke-600 dark:text-smoke-400 leading-relaxed line-clamp-2">
+      <p class="text-sm text-smoke-600 dark:text-smoke-400 leading-relaxed line-clamp-6">
         {{ product.description }}
       </p>
 

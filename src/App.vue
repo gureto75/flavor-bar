@@ -7,6 +7,7 @@ import FilterPanel from './components/FilterPanel.vue'
 import ProductCard from './components/ProductCard.vue'
 import EmptyState from './components/EmptyState.vue'
 import LoadingSkeleton from './components/LoadingSkeleton.vue'
+import PaginationBar from './components/PaginationBar.vue'
 
 const {
   products,
@@ -28,6 +29,13 @@ const {
   pushHistory,
   goBack,
   canGoBack,
+  // Pagination
+  currentPage,
+  totalPages,
+  totalFilteredCount,
+  paginatedProducts,
+  goToPage,
+  ITEMS_PER_PAGE,
 } = useProducts()
 
 onMounted(() => {
@@ -79,7 +87,7 @@ function handleGoBack() {
       <div class="mb-5">
         <SearchBar
           v-model="searchQuery"
-          :resultCount="filteredProducts.length"
+          :resultCount="totalFilteredCount"
           :totalCount="products.length"
           @update:modelValue="pushHistory"
         />
@@ -110,12 +118,15 @@ function handleGoBack() {
         </aside>
 
         <!-- Product Grid -->
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0" id="product-grid">
           <!-- Results count -->
           <div class="flex items-center justify-between mb-4">
             <p class="text-sm text-smoke-500 dark:text-smoke-400">
-              <span class="font-semibold text-smoke-700 dark:text-smoke-300">{{ filteredProducts.length }}</span>
-              {{ filteredProducts.length === 1 ? 'προϊόν' : 'προϊόντα' }}
+              <span class="font-semibold text-smoke-700 dark:text-smoke-300">{{ totalFilteredCount }}</span>
+              {{ totalFilteredCount === 1 ? 'προϊόν' : 'προϊόντα' }}
+              <span v-if="totalPages > 1" class="text-smoke-400 dark:text-smoke-500">
+                &middot; Σελίδα {{ currentPage }} από {{ totalPages }}
+              </span>
             </p>
           </div>
 
@@ -124,24 +135,34 @@ function handleGoBack() {
 
           <!-- Empty State -->
           <EmptyState
-            v-else-if="filteredProducts.length === 0"
+            v-else-if="totalFilteredCount === 0"
             :hasFilters="activeFilterCount > 0 || searchQuery.length > 0"
             @clear="clearAllFilters"
           />
 
           <!-- Product Grid -->
-          <TransitionGroup
-            v-else
-            tag="div"
-            name="slide"
-            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
-          >
-            <ProductCard
-              v-for="product in filteredProducts"
-              :key="product.id"
-              :product="product"
+          <template v-else>
+            <TransitionGroup
+              tag="div"
+              name="slide"
+              class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
+            >
+              <ProductCard
+                v-for="product in paginatedProducts"
+                :key="product.id"
+                :product="product"
+              />
+            </TransitionGroup>
+
+            <!-- Pagination -->
+            <PaginationBar
+              :currentPage="currentPage"
+              :totalPages="totalPages"
+              :totalItems="totalFilteredCount"
+              :itemsPerPage="ITEMS_PER_PAGE"
+              @go-to-page="goToPage"
             />
-          </TransitionGroup>
+          </template>
         </div>
       </div>
     </main>

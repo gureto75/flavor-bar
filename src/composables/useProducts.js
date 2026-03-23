@@ -8,6 +8,10 @@ const error = ref(null)
 const searchQuery = ref('')
 const usingSampleData = ref(false)
 
+// Pagination
+const ITEMS_PER_PAGE = 30
+const currentPage = ref(1)
+
 // Filter state
 const filters = ref({
   profiles: [],
@@ -140,6 +144,28 @@ export function useProducts() {
     return result
   })
 
+  // Pagination
+  const totalFilteredCount = computed(() => filteredProducts.value.length)
+
+  const totalPages = computed(() => Math.max(1, Math.ceil(totalFilteredCount.value / ITEMS_PER_PAGE)))
+
+  const paginatedProducts = computed(() => {
+    const start = (currentPage.value - 1) * ITEMS_PER_PAGE
+    return filteredProducts.value.slice(start, start + ITEMS_PER_PAGE)
+  })
+
+  // Reset to page 1 when filters or search change
+  watch([searchQuery, filters], () => {
+    currentPage.value = 1
+  }, { deep: true })
+
+  function goToPage(page) {
+    const p = Math.max(1, Math.min(page, totalPages.value))
+    currentPage.value = p
+    // Scroll to top of product grid
+    document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   const activeFilterCount = computed(() => {
     let count = 0
     if (filters.value.profiles.length > 0) count++
@@ -230,5 +256,12 @@ export function useProducts() {
     pushHistory,
     goBack,
     canGoBack,
+    // Pagination
+    currentPage,
+    totalPages,
+    totalFilteredCount,
+    paginatedProducts,
+    goToPage,
+    ITEMS_PER_PAGE,
   }
 }
