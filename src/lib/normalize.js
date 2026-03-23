@@ -15,19 +15,33 @@ export function includesNormalized(text, query) {
 }
 
 /**
- * Subsequence match — checks if every character of `query` appears
- * in `text` in order (not necessarily contiguous).
- * e.g. "μηλκαν" matches "μήλο δημητριακά γάλα κανέλα"
+ * Multi-ingredient fuzzy match — checks if query characters can be found
+ * across ingredients in any order. Each query char is consumed from the
+ * first ingredient that still has it available (letter-pool approach).
+ * e.g. "μηλκαν" matches ingredients ["κανέλα", "μήλο"] regardless of order.
  */
-export function subsequenceMatch(text, query) {
-  const normText = normalizeGreek(text)
-  const normQuery = normalizeGreek(query)
-  let ti = 0
-  for (let qi = 0; qi < normQuery.length; qi++) {
-    const ch = normQuery[qi]
-    const found = normText.indexOf(ch, ti)
-    if (found === -1) return false
-    ti = found + 1
+export function ingredientsFuzzyMatch(ingredients, query) {
+  const normQuery = normalizeGreek(query).replace(/\s/g, '')
+  if (!normQuery) return false
+
+  // Build a letter pool: for each ingredient, track available characters
+  const pools = ingredients.map(ing => {
+    const chars = normalizeGreek(ing).replace(/\s/g, '').split('')
+    return chars
+  })
+
+  // For each query character, find it in any pool and consume it
+  for (const ch of normQuery) {
+    let found = false
+    for (const pool of pools) {
+      const idx = pool.indexOf(ch)
+      if (idx !== -1) {
+        pool.splice(idx, 1) // consume the character
+        found = true
+        break
+      }
+    }
+    if (!found) return false
   }
   return true
 }
