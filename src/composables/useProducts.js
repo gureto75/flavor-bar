@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { supabase } from '../lib/supabase.js'
 import { sampleProducts } from '../lib/sampleData.js'
-import { includesNormalized, ingredientsFuzzyMatch } from '../lib/normalize.js'
+import { includesNormalized, subsequenceMatch } from '../lib/normalize.js'
 
 const products = ref([])
 const loading = ref(true)
@@ -136,10 +136,11 @@ export function useProducts() {
         )
         const descMatch = p.description ? includesNormalized(p.description, query) : false
 
-        // Fuzzy match across all ingredients (any order, letter-pool)
-        const ingredientFuzzy = ingredientsFuzzyMatch(p.ingredients || [], query)
+        // Subsequence match across all ingredients joined together
+        const joinedIngredients = (p.ingredients || []).join(' ')
+        const ingredientSubseq = subsequenceMatch(joinedIngredients, query)
 
-        return nameMatch || ingredientExact || descMatch || ingredientFuzzy
+        return nameMatch || ingredientExact || descMatch || ingredientSubseq
       })
     }
 
