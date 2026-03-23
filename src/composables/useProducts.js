@@ -1,6 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { supabase } from '../lib/supabase.js'
 import { sampleProducts } from '../lib/sampleData.js'
+import { includesNormalized } from '../lib/normalize.js'
 
 const products = ref([])
 const loading = ref(true)
@@ -103,15 +104,15 @@ export function useProducts() {
   const filteredProducts = computed(() => {
     let result = [...products.value]
 
-    // Search filter - searches in name and ingredients
+    // Search filter - searches in name, ingredients, description (accent-insensitive)
     if (searchQuery.value.trim()) {
-      const query = searchQuery.value.toLowerCase().trim()
+      const query = searchQuery.value.trim()
       result = result.filter(p => {
-        const nameMatch = p.name.toLowerCase().includes(query)
+        const nameMatch = includesNormalized(p.name, query)
         const ingredientMatch = (p.ingredients || []).some(i =>
-          i.toLowerCase().includes(query)
+          includesNormalized(i, query)
         )
-        const descMatch = p.description?.toLowerCase().includes(query)
+        const descMatch = p.description ? includesNormalized(p.description, query) : false
         return nameMatch || ingredientMatch || descMatch
       })
     }

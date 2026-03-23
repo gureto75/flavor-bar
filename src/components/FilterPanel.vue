@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { includesNormalized } from '../lib/normalize.js'
 import { SlidersHorizontal, X, ChevronDown, ChevronUp, Snowflake, Candy, Globe, Building2, Search } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -62,9 +63,9 @@ function handleToggleVolume(volume) {
 const ingredientSearch = ref('')
 
 const filteredIngredients = computed(() => {
-  const query = ingredientSearch.value.toLowerCase().trim()
+  const query = ingredientSearch.value.trim()
   if (!query) return props.availableIngredients
-  return props.availableIngredients.filter(i => i.toLowerCase().includes(query))
+  return props.availableIngredients.filter(i => includesNormalized(i, query))
 })
 
 function handleToggleIngredient(ingredient) {
