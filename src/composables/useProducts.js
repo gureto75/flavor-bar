@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { supabase } from '../lib/supabase.js'
 import { sampleProducts } from '../lib/sampleData.js'
-import { includesNormalized, subsequenceMatch } from '../lib/normalize.js'
+import { includesNormalized } from '../lib/normalize.js'
 
 const products = ref([])
 const loading = ref(true)
@@ -124,23 +124,15 @@ export function useProducts() {
     let result = [...products.value]
 
     // Search filter - searches in name, ingredients, description (accent-insensitive)
-    // Supports subsequence matching across joined ingredients
-    // e.g. "μηλκαν" finds products with μήλο + κανέλα
     if (searchQuery.value.trim()) {
       const query = searchQuery.value.trim()
       result = result.filter(p => {
-        // Exact substring matches (name, individual ingredients, description)
         const nameMatch = includesNormalized(p.name, query)
-        const ingredientExact = (p.ingredients || []).some(i =>
+        const ingredientMatch = (p.ingredients || []).some(i =>
           includesNormalized(i, query)
         )
         const descMatch = p.description ? includesNormalized(p.description, query) : false
-
-        // Subsequence match across all ingredients joined together
-        const joinedIngredients = (p.ingredients || []).join(' ')
-        const ingredientSubseq = subsequenceMatch(joinedIngredients, query)
-
-        return nameMatch || ingredientExact || descMatch || ingredientSubseq
+        return nameMatch || ingredientMatch || descMatch
       })
     }
 
